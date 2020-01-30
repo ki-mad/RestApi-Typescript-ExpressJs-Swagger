@@ -15,33 +15,30 @@ let router = express.Router();
  *          - handphone
  *          - identity
  *      properties:
- *          id: 
- *              example: 0
- *              type: integer
  *          email: 
- *              example: email@email.com
+ *              example: varchar
  *              type: varchar
  *          handphone: 
- *              example: 02134049
+ *              example: 0
  *              type: varchar 
  *          identity: 
- *              example: 317103843729
+ *              example: 0
  *              type: varchar
  *          accountname: 
- *              example: string
+ *              example: varchar
  *              type: varchar
  *          fullname: 
  *              example: string
  *              type: varchar
  *          password: 
- *              example: user1234
+ *              example: varchar
  *              type: varchar
  *          address: 
- *              example: Jln. Mesjid 4, Pejompongan, Jakarta Pusat
+ *              example: varchar
  *              type: varchar
  *          city: 
- *              example: Jakarta
- *              type: varchar
+ *              example: string
+ *              type: varchar         
  *              
 */
 
@@ -63,10 +60,33 @@ let router = express.Router();
  *                schema:
  *                  $ref: '#/definitions/Registration'
  *          responses:
- *             200:
- *                  description: Succesful
- *             400: 
+ *             201:
+ *                  description: Register Succesful
+ *                  content:
+ *                      - application/json
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          token:
+ *                              example: varchar
+ *                              type: varchar
+ *                          message:
+ *                              example: "Registration Success"
+ *                          success:
+ *                              example: 1
+ *                              type: boolean
+ *             422: 
  *                  description: Invalid
+ *                  content:
+ *                      - application/json
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          message: 
+ *                              example: "Registration Failed"
+ *                          success:
+ *                              example: 0
+ *                              type: boolean
  */
 router.route('').post(register.postRegistration);
 

@@ -21,9 +21,19 @@ export const postRegistration = (req: Request, res: Response) => {
     `INSERT INTO profiles VALUES (NULL, '${email}', '${userid}', '${handphone}', '${identity}', NULL, '${accountName}', '', NULL, NULL, '${fullName}', '${password}', '${address}', '', '${city}', '', '', '', '', NULL, NULL,NULL, NOW(), NULL, '', '', '')`,
     (err: any, data: any) => {
       if (err) {
-        res.send({
-          err
-        });
+        if (err.errno) {
+          if (err.errno === 1062) {
+            res.status(422).send({
+              message: "Duplicate Entry",
+              success: "0"
+            });
+          }
+        } else {
+            res.status(422).send({
+              message: "Registration Failed",
+              success: "0"
+            });
+        }
       } else {
         const token: any = jwt.sign(
           {
@@ -34,10 +44,10 @@ export const postRegistration = (req: Request, res: Response) => {
             expiresIn: 60 * 60
           }
         );
-        res.send({
-          message: "Insert Success",
-          data,
-          token
+        res.status(201).send({
+          id: data.insertId,
+          token,
+          success: "1"
         });
       }
     }

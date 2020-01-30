@@ -9,7 +9,9 @@ const morgan = require('morgan');
 // create express server
 const app = express();
 const port = process.env.PORT || 5001;
+//logger
 app.use(morgan('combined', { stream: winston.stream }));
+//error log
 app.use(function (err, req, res, next) {
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};

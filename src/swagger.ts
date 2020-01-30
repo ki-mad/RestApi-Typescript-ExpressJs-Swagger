@@ -8,8 +8,8 @@ const options = {
             description: 'UNDI UNDI API',
             swagger: '2.0',
             title: 'Documentation API RedBox',
-            version: '1.0.0'
-        }
+            version: '1.0.0',
+        },
     }
 };
 

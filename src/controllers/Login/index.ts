@@ -10,63 +10,64 @@ let router = express.Router();
  *  Login:
  *      type: object
  *      required:
- *          - id
  *          - email
- *          - handphone
- *          - identity
+ *          - password
  *      properties:
- *          id: 
- *              example: 0
- *              type: integer
  *          email: 
- *              example: email@email.com
- *              type: varchar
- *          handphone: 
- *              example: 02134049
- *              type: varchar 
- *          identity: 
- *              example: 317103843729
- *              type: varchar
- *          accountname: 
- *              example: string
- *              type: varchar
- *          fullname: 
- *              example: string
+ *              example: varchar
  *              type: varchar
  *          password: 
- *              example: user1234
- *              type: varchar
- *          address: 
- *              example: Jln. Mesjid 4, Pejompongan, Jakarta Pusat
- *              type: varchar
- *          city: 
- *              example: Jakarta
- *              type: varchar
- *              
+ *              example: varchar
+ *              type: varchar              
 */
 
 /**
  * @swagger
- * /Login:
+ * /login:
  *      post:
  *          tags:
  *              - Login
- *          summary: Create a new profile
+ *          summary: Login
  *          produces:
  *              - application/json
  *          parameters:
  *              - name: body
  *                in: body
- *                description: Insert a new profile
+ *                description: Login
  *                required: true
  *                type: string
  *                schema:
- *                  $ref: '#/definitions/Registration'
+ *                  $ref: '#/definitions/Login'
  *          responses:
  *             200:
- *                  description: Succesful
- *             400: 
+ *                  description: Login Succesful
+ *                  content:
+ *                      - application/json
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          message: 
+ *                              example:
+ *                                  Login Success
+ *                          token: 
+ *                              example: varchar
+ *                              type: varchar
+ *                          success: 
+ *                              example: 1
+ *                              type: boolean
+ *             422: 
  *                  description: Invalid
+ *                  content:
+ *                      - application/json
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          message: 
+ *                              example:
+ *                                  "Username or Password Incorrect"
+ *                          success: 
+ *                              example: 0
+ *                              type: boolean
  */
 router.route('').post(login.postLogin);
 

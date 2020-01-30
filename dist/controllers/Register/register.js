@@ -16,20 +16,33 @@ exports.postRegistration = (req, res) => {
     const address = req.body.address;
     const city = req.body.city;
     const userid = uuid();
-    db_1.default.query(`INSERT INTO profiles VALUES (NULL, '${email}', '${userid}', '${handphone}', '${identity}', NULL, '${accountName}', '', NULL, NULL, '${fullName}', '${password}', '${address}', '', '${city}', '', '', '', '', NULL, NULL,NULL, NOW(), NULL, '', '', '');`, (err, data) => {
+    db_1.default.query(`INSERT INTO profiles VALUES (NULL, '${email}', '${userid}', '${handphone}', '${identity}', NULL, '${accountName}', '', NULL, NULL, '${fullName}', '${password}', '${address}', '', '${city}', '', '', '', '', NULL, NULL,NULL, NOW(), NULL, '', '', '')`, (err, data) => {
         if (err) {
-            res.send({
-                err
-            });
+            if (err.errno) {
+                if (err.errno === 1062) {
+                    res.status(422).send({
+                        message: "Duplicate Entry",
+                        success: "0"
+                    });
+                }
+            }
+            else {
+                res.status(422).send({
+                    message: "Registration Failed",
+                    success: "0"
+                });
+            }
         }
         else {
             const token = jwt.sign({
                 userId: data.id
-            }, "my-secret-key");
-            res.send({
-                message: "Insert Success",
-                data,
-                token
+            }, "my-secret-key", {
+                expiresIn: 60 * 60
+            });
+            res.status(201).send({
+                id: data.insertId,
+                token,
+                success: "1"
             });
         }
     });
